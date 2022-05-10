@@ -30,7 +30,8 @@ runs:
       if: ${{ steps.has-tester.outputs.has_tester == 'false' }}
       id: get-reviewer
       run: |
-        REVIEWER=${REVIEWERS[ $RANDOM % ${#REVIEWERS[@]} ]}
+        read -ra REVIEWERS_ARR <<< "$REVIEWERS"
+        REVIEWER=${REVIEWERS_ARR[ $RANDOM % ${#REVIEWERS_ARR[@]} ]}
         echo "::set-output name=REVIEWER::$REVIEWER"
       env:
        REVIEWERS: ${{ inputs.testers }}
