@@ -1,9 +1,5 @@
 name: 'Assign QA tester'
 description: 'to test the pull request against the attached review checklist'
-inputs:
-  testers:
-    description: 'testers list'
-    required: true
 runs:
   using: "composite"
   steps:
@@ -25,15 +21,45 @@ runs:
         fi
       env:
         COMMENT_ID: ${{ steps.fc.outputs.comment-id }}
+    - name: set-testers
+      id: set-testers
+      shell: bash
+      run: |
+       set -x
+       STR=${{ github.event.pull_request.head.ref }}
+       PLANNER_TEAM='POS'
+       DRIVER_TEAM='DFS'
+       DESIGN_TEAM='DES'
+       DEVOPS_TEAM='DEV'
+       case $STR in
+         *"$PLANNER_TEAM"*)
+           echo '::set-output name=testers::${testers-planner}'
+           ;;
+         *"$DRIVER_TEAM"*)
+           echo '::set-output name=testers::${testers-driver}'
+           ;;
+         *"$DESIGN_TEAM"*)
+           echo '::set-output name=testers::${testers-design}'
+           ;;
+         *"$DEVOPS_TEAM"*)
+           echo '::set-output name=testers::${testers-devops}'
+           ;;
+       esac
+      env:
+        testers-planner: '"@KhaledSakr" "@Ahmed-Shaarawy" "@mowaleed96" "@Mostafa-Zaki-dev" "@nermindaif"'
+        testers-driver: '"@jlabeit" "@lboragy" "@AsmaaAlamrawy" "@amrahmed242"'
+        testers-devops: '"@KhaledSakr" "@david-paulus-saad"'
+        testers-design: '"@daviddurre" "@beshoyreda0"'
     - name: Pickup QA tester
       shell: bash
       if: ${{ steps.has-tester.outputs.has_tester == 'false' }}
       id: get-reviewer
       run: |
-        REVIEWER=${REVIEWERS[ $RANDOM % ${#REVIEWERS[@]} ]}
+        read -ra REVIEWERS_ARR <<< "$REVIEWERS"
+        REVIEWER=${REVIEWERS_ARR[ $RANDOM % ${#REVIEWERS_ARR[@]} ]}
         echo "::set-output name=REVIEWER::$REVIEWER"
       env:
-       REVIEWERS: ${{ inputs.testers }}
+       REVIEWERS: ${{ steps.set-testers.outputs.testers }}
     - name: copy the template file
       run: |
         cp ${{ github.action_path }}/review-checklist.md review-checklist.md
