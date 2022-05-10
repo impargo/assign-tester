@@ -33,23 +33,23 @@ runs:
        DEVOPS_TEAM='DEV'
        case $STR in
          *"$PLANNER_TEAM"*)
-           echo '::set-output name=testers::${testers-planner}'
+           echo '::set-output name=testers::'"${TESTER_PLANNER}"''
            ;;
          *"$DRIVER_TEAM"*)
-           echo '::set-output name=testers::${testers-driver}'
+           echo '::set-output name=testers::'"${TESTER_DRIVER}"''
            ;;
          *"$DESIGN_TEAM"*)
-           echo '::set-output name=testers::${testers-design}'
+           echo '::set-output name=testers::'"${TESTER_DESIGN}"''
            ;;
          *"$DEVOPS_TEAM"*)
-           echo '::set-output name=testers::${testers-devops}'
+           echo '::set-output name=testers::'"${TESTER_DEVOPS}"''
            ;;
        esac
       env:
-        testers-planner: '"@KhaledSakr" "@Ahmed-Shaarawy" "@mowaleed96" "@Mostafa-Zaki-dev" "@nermindaif"'
-        testers-driver: '"@jlabeit" "@lboragy" "@AsmaaAlamrawy" "@amrahmed242"'
-        testers-devops: '"@KhaledSakr" "@david-paulus-saad"'
-        testers-design: '"@daviddurre" "@beshoyreda0"'
+        TESTER_PLANNER: '"@KhaledSakr" "@Ahmed-Shaarawy" "@mowaleed96" "@Mostafa-Zaki-dev" "@nermindaif"'
+        TESTER_DRIVER: '"@jlabeit" "@lboragy" "@AsmaaAlamrawy" "@amrahmed242"'
+        TESTER_DEVOPS: '"@KhaledSakr" "@david-paulus-saad"'
+        TESTER_DESIGN: '"@daviddurre" "@beshoyreda0"'
     - name: Pickup QA tester
       shell: bash
       if: ${{ steps.has-tester.outputs.has_tester == 'false' }}
