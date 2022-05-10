@@ -30,7 +30,7 @@ runs:
        PLANNER_TEAM='POS'
        DRIVER_TEAM='DFS'
        DESIGN_TEAM='DES'
-       DEVOPS_TEAM='DEV'
+       DEVOPS_TEAM='candidate'
        case $STR in
          *"$PLANNER_TEAM"*)
            echo '::set-output name=testers::${testers-planner}'
@@ -48,7 +48,7 @@ runs:
       env:
         testers-planner: '"@KhaledSakr" "@Ahmed-Shaarawy" "@mowaleed96" "@Mostafa-Zaki-dev" "@nermindaif"'
         testers-driver: '"@jlabeit" "@lboragy" "@AsmaaAlamrawy" "@amrahmed242"'
-        testers-devops: '"@KhaledSakr" "@david-paulus-saad"'
+        testers-devops: '"@david-paulus-289" "@david-paulus-saad"'
         testers-design: '"@daviddurre" "@beshoyreda0"'
     - name: Pickup QA tester
       shell: bash
