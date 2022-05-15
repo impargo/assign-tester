@@ -75,7 +75,7 @@ runs:
         template: review-checklist.md
         vars: |
           reviewer: ${{ steps.get-reviewer.outputs.REVIEWER }}
-          isdevops: ${{ steps.get-reviewer.outputs.isdevops }}
+          isdevops: ${{ steps.set-testers.outputs.isdevops }}
     - name: create or update the comment
       if: ${{ steps.has-tester.outputs.has_tester == 'false' }}
       uses: peter-evans/create-or-update-comment@v2
