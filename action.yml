@@ -43,6 +43,7 @@ runs:
            ;;
          *"$DEVOPS_TEAM"*)
            echo '::set-output name=testers::'"${TESTER_DEVOPS}"''
+           echo '::set-output name=isdevops::true'
            ;;
        esac
       env:
@@ -72,6 +73,7 @@ runs:
         template: review-checklist.md
         vars: |
           reviewer: ${{ steps.get-reviewer.outputs.REVIEWER }}
+          isdevops: ${{ steps.get-reviewer.outputs.isdevops }}
     - name: create or update the comment
       if: ${{ steps.has-tester.outputs.has_tester == 'false' }}
       uses: peter-evans/create-or-update-comment@v2

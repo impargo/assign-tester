@@ -1,20 +1,5 @@
 Hello {{ .reviewer }}, happy testing!
-## Planner and Orders
-**Bugs:**
-- [ ] Is the bug properly fixed?
-- [ ] Are the most common user flows related to the original feature still working as intended ?
-
-**Features:**
-
-- [ ] Are all the user flows outlined in the design or original issue description working as intended?
-- [ ] Does the implementation match the designs?
-- [ ] There are no edge cases missed in the design and/or implementation?
-- [ ] If the feature is not complete yet, is it properly disabled?
-
-**Refactors:**
-
-- [ ] Are the most common user flows related to the original feature still working as intended?
-
+{{if .isdevops}}
 ## DevOps
 ### Workflows:
 - [ ] it is documented.
@@ -35,3 +20,22 @@ Hello {{ .reviewer }}, happy testing!
 - [ ] the alerts have the proper severity.
 - [ ] the alerts have an action for critical alerts, or a description for warning alerts.
 - [ ] the alerts are in a friendly format.
+
+{{ else }}
+## Planner and Orders
+**Bugs:**
+- [ ] Is the bug properly fixed?
+- [ ] Are the most common user flows related to the original feature still working as intended ?
+
+**Features:**
+
+- [ ] Are all the user flows outlined in the design or original issue description working as intended?
+- [ ] Does the implementation match the designs?
+- [ ] There are no edge cases missed in the design and/or implementation?
+- [ ] If the feature is not complete yet, is it properly disabled?
+
+**Refactors:**
+
+- [ ] Are the most common user flows related to the original feature still working as intended?
+
+{{ end }}
