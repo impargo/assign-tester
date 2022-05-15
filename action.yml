@@ -26,30 +26,32 @@ runs:
       shell: bash
       run: |
        set -x
-       STR=${{ github.event.pull_request.head.ref }}
-       PLANNER_TEAM='POS'
-       DRIVER_TEAM='DFS'
-       DESIGN_TEAM='DES'
-       DEVOPS_TEAM='DEV'
-       case $STR in
-         *"$PLANNER_TEAM"*)
-           echo '::set-output name=testers::'"${TESTER_PLANNER}"''
-           ;;
-         *"$DRIVER_TEAM"*)
-           echo '::set-output name=testers::'"${TESTER_DRIVER}"''
-           ;;
-         *"$DESIGN_TEAM"*)
-           echo '::set-output name=testers::'"${TESTER_DESIGN}"''
-           ;;
-         *"$DEVOPS_TEAM"*)
-           echo '::set-output name=testers::'"${TESTER_DEVOPS}"''
-           echo '::set-output name=isdevops::true'
-           ;;
-       esac
+        echo '::set-output name=testers::'"${TESTER_DEVOPS}"''
+        echo '::set-output name=isdevops::true'
+      #  STR=${{ github.event.pull_request.head.ref }}
+      #  PLANNER_TEAM='POS'
+      #  DRIVER_TEAM='DFS'
+      #  DESIGN_TEAM='DES'
+      #  DEVOPS_TEAM='DEV'
+      #  case $STR in
+      #    *"$PLANNER_TEAM"*)
+      #      echo '::set-output name=testers::'"${TESTER_PLANNER}"''
+      #      ;;
+      #    *"$DRIVER_TEAM"*)
+      #      echo '::set-output name=testers::'"${TESTER_DRIVER}"''
+      #      ;;
+      #    *"$DESIGN_TEAM"*)
+      #      echo '::set-output name=testers::'"${TESTER_DESIGN}"''
+      #      ;;
+      #    *"$DEVOPS_TEAM"*)
+      #      echo '::set-output name=testers::'"${TESTER_DEVOPS}"''
+      #      echo '::set-output name=isdevops::true'
+      #      ;;
+      #  esac
       env:
         TESTER_PLANNER: '"@KhaledSakr" "@Ahmed-Shaarawy" "@mowaleed96" "@Mostafa-Zaki-dev" "@nermindaif"'
         TESTER_DRIVER: '"@jlabeit" "@lboragy" "@AsmaaAlamrawy" "@amrahmed242"'
-        TESTER_DEVOPS: '"@KhaledSakr" "@david-paulus-saad"'
+        TESTER_DEVOPS: '"david-2" "david-3"'
         TESTER_DESIGN: '"@daviddurre" "@beshoyreda0"'
     - name: Pickup QA tester
       shell: bash
