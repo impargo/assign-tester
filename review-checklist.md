@@ -22,10 +22,10 @@ Hello {{ .reviewer }}, happy testing!
 - [ ] the alerts are in a friendly format.
 
 {{ else }}
-## Planner and Orders
+## Product features
 **Bugs:**
 - [ ] Is the bug properly fixed?
-- [ ] Are the most common user flows related to the original feature still working as intended ?
+- [ ] Are the most common user flows related to the original feature still working as intended?
 
 **Features:**
 
