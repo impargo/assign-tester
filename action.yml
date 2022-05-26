@@ -27,10 +27,11 @@ runs:
       run: |
        set -x
        STR=${{ github.event.pull_request.head.ref }}
-       PLANNER_TEAM='POS'
-       DRIVER_TEAM='DFS'
-       DESIGN_TEAM='DES'
-       DEVOPS_TEAM='DEV'
+       STR=$(echo $STR | tr '[:upper:]' '[:lower:]')
+       PLANNER_TEAM='pos'
+       DRIVER_TEAM='dfs'
+       DESIGN_TEAM='des'
+       DEVOPS_TEAM='dev'
        case $STR in
          *"$PLANNER_TEAM"*)
            echo '::set-output name=testers::'"${TESTER_PLANNER}"''
