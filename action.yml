@@ -31,7 +31,7 @@ runs:
        PLANNER_TEAM='pos'
        DRIVER_TEAM='dfs'
        DESIGN_TEAM='des'
-       DEVOPS_TEAM='dev'
+       DEVOPS_TEAM='release'
        case $STR in
          *"$PLANNER_TEAM"*)
            echo '::set-output name=testers::'"${TESTER_PLANNER}"''
@@ -48,10 +48,10 @@ runs:
            ;;
        esac
       env:
-        TESTER_PLANNER: '"@KhaledSakr" "@Ahmed-Shaarawy" "@mowaleed96" "@Mostafa-Zaki-dev" "@nermindaif"'
-        TESTER_DRIVER: '"@jlabeit" "@lboragy" "@AsmaaAlamrawy" "@amrahmed242"'
-        TESTER_DEVOPS: '"@KhaledSakr" "@david-paulus-saad"'
-        TESTER_DESIGN: '"@daviddurre" "@beshoyreda0"'
+        TESTER_PLANNER: '"KhaledSakr" "Ahmed-Shaarawy" "mowaleed96" "Mostafa-Zaki-dev" "nermindaif"'
+        TESTER_DRIVER: '"jlabeit" "lboragy" "AsmaaAlamrawy" "amrahmed242"'
+        TESTER_DEVOPS: '"github-actions" "david-paulus-saad"'
+        TESTER_DESIGN: '"daviddurre" "beshoyreda0"'
     - name: Pickup QA tester
       shell: bash
       if: ${{ steps.has-tester.outputs.has_tester == 'false' }}
