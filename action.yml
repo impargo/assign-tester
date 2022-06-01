@@ -48,16 +48,23 @@ runs:
            ;;
        esac
       env:
-        TESTER_PLANNER: '"@KhaledSakr" "@Ahmed-Shaarawy" "@mowaleed96" "@Mostafa-Zaki-dev" "@nermindaif"'
-        TESTER_DRIVER: '"@jlabeit" "@lboragy" "@AsmaaAlamrawy" "@amrahmed242"'
-        TESTER_DEVOPS: '"@KhaledSakr" "@david-paulus-saad"'
-        TESTER_DESIGN: '"@daviddurre" "@beshoyreda0"'
+        TESTER_PLANNER: '"KhaledSakr" "Ahmed-Shaarawy" "mowaleed96" "Mostafa-Zaki-dev" "nermindaif"'
+        TESTER_DRIVER: '"jlabeit" "lboragy" "AsmaaAlamrawy" "amrahmed242"'
+        TESTER_DEVOPS: '"KhaledSakr" "david-paulus-saad"'
+        TESTER_DESIGN: '"daviddurre" "beshoyreda0"'
     - name: Pickup QA tester
       shell: bash
       if: ${{ steps.has-tester.outputs.has_tester == 'false' }}
       id: get-reviewer
       run: |
+        set -x
         read -ra REVIEWERS_ARR <<< "$REVIEWERS"
+        author=${{ github.event.pull_request.user.login }}
+        for i in ${!REVIEWERS_ARR[@]}; do
+          if [ "${REVIEWERS_ARR[i]}" = "\"$author\"" ]; then
+              unset 'REVIEWERS_ARR[i]'
+          fi
+        done
         REVIEWER=${REVIEWERS_ARR[ $RANDOM % ${#REVIEWERS_ARR[@]} ]}
         echo "::set-output name=REVIEWER::$REVIEWER"
       env:

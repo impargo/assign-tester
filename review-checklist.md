@@ -1,4 +1,4 @@
-Hello {{ .reviewer }}, happy testing!
+Hello @{{ .reviewer }}, happy testing!
 {{if .isdevops}}
 ## DevOps
 ### Workflows:
