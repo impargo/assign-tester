@@ -57,7 +57,10 @@ runs:
       if: ${{ steps.has-tester.outputs.has_tester == 'false' }}
       id: get-reviewer
       run: |
+        set -x
         read -ra REVIEWERS_ARR <<< "$REVIEWERS"
+        author=${{ github.event.pull_request.user.login }}
+        array=( "${REVIEWERS_ARR[@]/$author}" ) 
         REVIEWER=${REVIEWERS_ARR[ $RANDOM % ${#REVIEWERS_ARR[@]} ]}
         echo "::set-output name=REVIEWER::$REVIEWER"
       env:
