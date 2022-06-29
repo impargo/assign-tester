@@ -47,7 +47,7 @@ runs:
            echo '::set-output name=isdevops::true'
            ;;
           *)
-           exit 1
+            echo '::set-output name=general::true'
           ;;
        esac
       env:
@@ -57,7 +57,7 @@ runs:
         TESTER_DESIGN: '"daviddurre" "beshoyreda0"'
     - name: Pickup QA tester
       shell: bash
-      if: ${{ steps.has-tester.outputs.has_tester == 'false' }}
+      if: ${{ steps.has-tester.outputs.has_tester == 'false' && steps.set-testers.outputs.general != 'true' }}
       id: get-reviewer
       run: |
         read -ra REVIEWERS_ARR <<< "$REVIEWERS"
@@ -77,7 +77,7 @@ runs:
         cp ${{ github.action_path }}/review-checklist.md review-checklist.md
       shell: bash
     - name: Render checklist template
-      if: ${{ steps.has-tester.outputs.has_tester == 'false' }}
+      if: ${{ steps.has-tester.outputs.has_tester == 'false' && steps.set-testers.outputs.general != 'true' }}
       id: get-checklist
       uses: chuhlomin/render-template@v1.4
       with:
@@ -86,7 +86,7 @@ runs:
           reviewer: ${{ steps.get-reviewer.outputs.REVIEWER }}
           isdevops: ${{ steps.set-testers.outputs.isdevops }}
     - name: create or update the comment
-      if: ${{ steps.has-tester.outputs.has_tester == 'false' }}
+      if: ${{ steps.has-tester.outputs.has_tester == 'false' && steps.set-testers.outputs.general != 'true' }}
       uses: peter-evans/create-or-update-comment@v2
       with:
         issue-number: ${{ github.event.pull_request.number }}
