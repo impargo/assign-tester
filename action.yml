@@ -46,6 +46,9 @@ runs:
            echo '::set-output name=testers::'"${TESTER_DEVOPS}"''
            echo '::set-output name=isdevops::true'
            ;;
+          *)
+           exit 1
+          ;;
        esac
       env:
         TESTER_PLANNER: '"KhaledSakr" "Ahmed-Shaarawy" "mowaleed96" "Mostafa-Zaki-dev" "nermindaif"'
