@@ -32,6 +32,7 @@ runs:
        DRIVER_TEAM='dfs'
        DESIGN_TEAM='des'
        DEVOPS_TEAM='dev'
+       SHIPPER_TEAM='shi'
        case $STR in
          *"$PLANNER_TEAM"*)
            echo '::set-output name=testers::'"${TESTER_PLANNER}"''
@@ -46,6 +47,9 @@ runs:
            echo '::set-output name=testers::'"${TESTER_DEVOPS}"''
            echo '::set-output name=isdevops::true'
            ;;
+         *"$SHIPPER_TEAM"*)
+           echo '::set-output name=testers::'"${TESTER_SHIPPER}"''
+           ;;
           *)
             echo '::set-output name=general::true'
           ;;
@@ -55,6 +59,7 @@ runs:
         TESTER_DRIVER: '"jlabeit" "lboragy" "AsmaaAlamrawy" "amrahmed242"'
         TESTER_DEVOPS: '"KhaledSakr" "david-paulus-saad"'
         TESTER_DESIGN: '"daviddurre" "beshoyreda0"'
+        TESTER_SHIPPER: '"Ahmed-Shaarawy" "Mostafa-Zaki-dev"'
     - name: Pickup QA tester
       shell: bash
       if: ${{ steps.has-tester.outputs.has_tester == 'false' && steps.set-testers.outputs.general != 'true' }}
