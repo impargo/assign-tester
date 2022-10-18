@@ -55,7 +55,7 @@ runs:
           ;;
        esac
       env:
-        TESTER_PLANNER: '"KhaledSakr" "Ahmed-Shaarawy" "mowaleed96" "Mostafa-Zaki-dev" "nermindaif"'
+        TESTER_PLANNER: '"KhaledSakr" "mowaleed96" "nermindaif"'
         TESTER_DRIVER: '"jlabeit" "lboragy" "AsmaaAlamrawy" "amrahmed242"'
         TESTER_DEVOPS: '"KhaledSakr" "david-paulus-saad"'
         TESTER_DESIGN: '"daviddurre" "beshoyreda0"'
