@@ -59,7 +59,7 @@ runs:
         TESTER_DRIVER: '"jlabeit" "lboragy" "AsmaaAlamrawy" "amrahmed242"'
         TESTER_DEVOPS: '"KhaledSakr" "david-paulus-saad"'
         TESTER_DESIGN: '"daviddurre" "beshoyreda0"'
-        TESTER_SHIPPER: '"Ahmed-Shaarawy" "Mostafa-Zaki-dev"'
+        TESTER_SHIPPER: '"Ahmed-Shaarawy" "Mostafa-Zaki-dev" "Omar-Khaledd"'
     - name: Pickup QA tester
       shell: bash
       if: ${{ steps.has-tester.outputs.has_tester == 'false' && steps.set-testers.outputs.general != 'true' }}
