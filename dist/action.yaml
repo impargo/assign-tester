@@ -1,0 +1,18 @@
+name: 'QA-OWNER'
+description: 'GET QA OWNER'
+author: 'David Paulus'
+
+inputs:
+  LINEAR_API_KEY:
+    description: 'Linear API Key'
+    required: true
+  BRANCH_NAME:
+    description: 'PR base branch name'
+    required: true
+outputs:
+  QA_GITHUB_USERNAME:
+    description: 'GIHTUB USERNAME'
+
+runs:
+  using: node20
+  main: index.js
