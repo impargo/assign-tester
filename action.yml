@@ -21,8 +21,8 @@ runs:
     - uses: actions/setup-node@v4
       with:
         node-version: '20'
-    - uses: actions/checkout@v2
-    - uses: ./dist
+
+    - uses: impargo/qa-owner-action@v1
       id: qa-owner
       with:
         LINEAR_API_KEY: ${{ inputs.LINEAR_API_KEY }}
