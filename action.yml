@@ -21,7 +21,7 @@ runs:
     - uses: actions/setup-node@v4
       with:
         node-version: '20'
-
+    - uses: actions/checkout@v2
     - uses: ./dist
       id: qa-owner
       with:
