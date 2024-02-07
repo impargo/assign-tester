@@ -1,5 +1,12 @@
 name: 'Assign QA tester'
 description: 'to test the pull request against the attached review checklist'
+inputs:
+  LINEAR_API_KEY:
+    description: 'Linear API Key'
+    required: true
+  BRANCH_NAME:
+    description: 'PR base branch name'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -10,6 +17,17 @@ runs:
         issue-number: ${{ github.event.pull_request.number }}
         comment-author: 'github-actions[bot]'
         body-includes: happy testing
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - uses: ./dist
+      id: qa-owner
+      with:
+        LINEAR_API_KEY: ${{ inputs.LINEAR_API_KEY }}
+        BRANCH_NAME: ${{ inputs.BRANCH_NAME }}
+      
     - name: Has QA tester?
       id: has-tester
       shell: bash
@@ -21,12 +39,14 @@ runs:
         fi
       env:
         COMMENT_ID: ${{ steps.fc.outputs.comment-id }}
-    - name: set-testers
+          
+    - name: get-random-testers
       id: set-testers
+      if: ${{ steps.qa-owner.outputs.QA_GITHUB_USERNAME == '' }}
       shell: bash
       run: |
        set -x
-       STR=${{ github.event.pull_request.head.ref }}
+       STR=${{ inputs.BRANCH_NAME }}
        STR=$(echo $STR | tr '[:upper:]' '[:lower:]')
        PLANNER_TEAM='pos'
        DRIVER_TEAM='dfs'
@@ -60,26 +80,34 @@ runs:
         TESTER_DEVOPS: '"KhaledSakr" "david-paulus-saad"'
         TESTER_DESIGN: '"daviddurre" "beshoyreda0"'
         TESTER_SHIPPER: '"Ahmed-Shaarawy" "Mostafa-Zaki-dev" "Omar-Khaledd"'
+        
     - name: Pickup QA tester
       shell: bash
       if: ${{ steps.has-tester.outputs.has_tester == 'false' && steps.set-testers.outputs.general != 'true' }}
       id: get-reviewer
       run: |
-        read -ra REVIEWERS_ARR <<< "$REVIEWERS"
-        author=${{ github.event.pull_request.user.login }}
-        for i in ${!REVIEWERS_ARR[@]}; do
-          if [ "${REVIEWERS_ARR[i]}" = "\"$author\"" ]; then
-              unset 'REVIEWERS_ARR[i]'
-              REVIEWERS_ARR=(${REVIEWERS_ARR[@]})
-          fi
-        done
-        REVIEWER=${REVIEWERS_ARR[ $RANDOM % ${#REVIEWERS_ARR[@]} ]}
+        set -x
+        if [[ -n ${{ steps.qa-owner.outputs.QA_GITHUB_USERNAME }} ]]; then
+          REVIEWER="${{ steps.qa-owner.outputs.QA_GITHUB_USERNAME }}"
+        else
+          read -ra REVIEWERS_ARR <<< "$REVIEWERS"
+          author=${{ github.event.pull_request.user.login }}
+          for i in ${!REVIEWERS_ARR[@]}; do
+            if [ "${REVIEWERS_ARR[i]}" = "\"$author\"" ]; then
+                unset 'REVIEWERS_ARR[i]'
+                REVIEWERS_ARR=(${REVIEWERS_ARR[@]})
+            fi
+          done
+          REVIEWER=${REVIEWERS_ARR[ $RANDOM % ${#REVIEWERS_ARR[@]} ]}
+        fi
         echo "::set-output name=REVIEWER::$REVIEWER"
       env:
        REVIEWERS: ${{ steps.set-testers.outputs.testers }}
+
     - name: copy the template file
       run: |
         cp ${{ github.action_path }}/review-checklist.md review-checklist.md
+
       shell: bash
     - name: Render checklist template
       if: ${{ steps.has-tester.outputs.has_tester == 'false' && steps.set-testers.outputs.general != 'true' }}
@@ -90,6 +118,7 @@ runs:
         vars: |
           reviewer: ${{ steps.get-reviewer.outputs.REVIEWER }}
           isdevops: ${{ steps.set-testers.outputs.isdevops }}
+
     - name: create or update the comment
       if: ${{ steps.has-tester.outputs.has_tester == 'false' && steps.set-testers.outputs.general != 'true' }}
       uses: peter-evans/create-or-update-comment@v2

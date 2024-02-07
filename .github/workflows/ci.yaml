@@ -1,0 +1,18 @@
+on:
+  pull_request:
+  push:
+    branches: [master]
+    
+jobs:
+  approved:
+    name: Assign QA tester
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: feature/dev-326
+    - name: assign qa tester
+      uses: ./
+      with:
+        LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+        BRANCH_NAME: 'feature/pos-1193/update-rbac'
