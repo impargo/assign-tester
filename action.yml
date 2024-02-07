@@ -87,7 +87,7 @@ runs:
       id: get-reviewer
       run: |
         set -x
-        if [[ -n ${{ steps.qa-owner.outputs.QA_GITHUB_USERNAME }} ]]; then
+        if [ -n "${{ steps.qa-owner.outputs.QA_GITHUB_USERNAME }}" ]; then
           REVIEWER="${{ steps.qa-owner.outputs.QA_GITHUB_USERNAME }}"
         else
           read -ra REVIEWERS_ARR <<< "$REVIEWERS"
